@@ -1,0 +1,2 @@
+echo "SIMULACAO: tentativa de baixar arquivo, sem conexao de rede"
+echo "SIMULACAO: criar persistencia, sem alterar o sistema"

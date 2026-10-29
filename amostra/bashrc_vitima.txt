@@ -1,0 +1,2 @@
+# Evidencia didatica em texto; nao adicionar ao .bashrc.
+# nohup /tmp/atualizador-simulado.sh >/dev/null 2>&1 &

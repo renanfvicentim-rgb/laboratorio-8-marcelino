@@ -17,7 +17,7 @@ Fazer a **triagem estática** de um arquivo suspeito recebido por e-mail: identi
 ## 🧪 Passo a passo
 
 ```bash
-cd /workspaces/*/labs/08-analise-de-malware
+cd /workspaces/laboratorio-8-marcelino
 mkdir -p saida
 ls -l amostra/
 ```
@@ -71,21 +71,23 @@ for ioc in $(grep -v '^#' iocs.txt | cut -d';' -f2); do
 done
 ```
 
-## 📝 Tabela de triagem (preencha)
+## 📝 Tabela de triagem (resolvida)
+
+> **Nota:** os resultados abaixo correspondem aos fixtures didaticos deste repositorio, criados para exercitar a analise estatica. O dominio e o IP sao reservados para documentacao e nao representam infraestrutura real. As referencias de persistencia estao comentadas e nao ativam comandos.
 
 | Item | Resultado |
 |---|---|
-| Nome / extensão aparente | |
-| Tipo real (`file`) | |
-| SHA-256 | |
-| Consta na lista de IOCs? | |
-| Domínio / IP de C2 | |
-| Ações descritas na 2ª etapa | |
-| Mecanismos de persistência | |
+| Nome / extensão aparente | `fatura_agosto.pdf.sh`; parece uma fatura PDF, mas a extensao final e `.sh`. |
+| Tipo real (`file`) | POSIX shell script, texto ASCII; nao e um PDF. |
+| SHA-256 | `5ee66ad3701c57b97ccfa8bb88c7c9ffe32d961d0d1e63242d4f58caa4b6a34a` |
+| Consta na lista de IOCs? | Sim. O hash corresponde a entrada em `iocs.txt`. |
+| Domínio / IP de C2 | `c2.exemplo.invalid` / `192.0.2.25` (valores reservados para documentacao/testes). |
+| Ações descritas na 2ª etapa | Mensagens simulam uma tentativa de baixar arquivo sem conexao e criar persistencia sem alterar o sistema. |
+| Mecanismos de persistência | Cron (`@reboot`) e inicializacao via `.bashrc` (`nohup`), somente como comentarios ilustrativos nos arquivos de evidencia. |
 
 ## ❓ Perguntas
-1. Por que o atacante usou a extensão `.pdf.sh`?
-2. O que é Base64? É criptografia? Por que ele foi usado aqui?
-3. Quais são os dois mecanismos de persistência encontrados? Qual o equivalente no Windows?
-4. Por que o perito **não** executa a amostra, nem "só para ver"?
-5. Que recomendações você faria à empresa (usuário, e-mail, estação)?
+1. **Por que o atacante usou a extensão `.pdf.sh`?** Para fazer o arquivo parecer uma fatura PDF e aumentar a chance de alguem abri-lo. A extensao final revela que e um script shell; a extensao dupla nao o transforma em PDF.
+2. **O que é Base64? É criptografia? Por que ele foi usado aqui?** Base64 e uma codificacao de dados em texto, nao criptografia: nao usa chave nem garante confidencialidade. E facil de reverter e pode ser usada para ofuscar o conteudo de uma leitura casual.
+3. **Quais são os dois mecanismos de persistência encontrados? Qual o equivalente no Windows?** Cron por meio de `@reboot` e inicializacao de comandos pelo `.bashrc` (aqui representada por `nohup`). Nos fixtures, aparecem apenas como comentarios, sem persistencia ativa. O material cita as chaves `Run` do Registro do Windows como equivalente.
+4. **Por que o perito não executa a amostra, nem "só para ver"?** A execucao poderia alterar ou apagar dados, iniciar comunicacao externa, instalar persistencia ou comprometer a maquina, alem de contaminar evidencias. A analise solicitada e estatica, portanto a amostra deve ser inspecionada sem execucao.
+5. **Que recomendações você faria à empresa (usuário, e-mail, estação)?** Orientar usuarios a desconfiar de anexos inesperados e confirmar pedidos por outro canal; filtrar e bloquear anexos de script; manter sistemas e protecoes atualizados; aplicar menor privilegio, manter backups testados e monitorar pontos de inicializacao como cron e `.bashrc`. Se houver suspeita de abertura, acionar a equipe responsavel e isolar a estacao conforme o plano de resposta a incidentes.

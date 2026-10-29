@@ -1,0 +1,2 @@
+# Evidencia didatica em texto; nao instalar em um crontab.
+# @reboot /tmp/atualizador-simulado.sh

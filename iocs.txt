@@ -1,0 +1,4 @@
+# tipo;valor;descricao
+sha256;5ee66ad3701c57b97ccfa8bb88c7c9ffe32d961d0d1e63242d4f58caa4b6a34a;hash da amostra didatica
+dominio;c2.exemplo.invalid;dominio reservado para documentacao
+ip;192.0.2.25;endereco TEST-NET reservado para documentacao
